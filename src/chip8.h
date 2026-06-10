@@ -1,4 +1,5 @@
 #pragma once
+#include <SDL3/SDL.h>
 #include <stdbool.h>
 #include <stdint.h>
 #define MEMORY_SIZE 4096
@@ -21,6 +22,8 @@ typedef struct {
   uint16_t opcode;
 } Chip8;
 
+void update_screen(SDL_Renderer *renderer, SDL_Texture *texture,
+                   void const *display, int pitch);
 void chip8_init(Chip8 *vm);
 void chip8_load_rom(Chip8 *vm, const char *path);
 void chip8_cycle(Chip8 *vm);
