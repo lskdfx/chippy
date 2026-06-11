@@ -22,6 +22,7 @@ typedef struct {
   uint16_t opcode;
 } Chip8;
 
+bool process_keypress(uint8_t *keys);
 void update_screen(SDL_Renderer *renderer, SDL_Texture *texture,
                    void const *display, int pitch);
 void chip8_init(Chip8 *vm);
