@@ -7,6 +7,7 @@
 #include <time.h>
 
 static uint8_t FONT[80] = {
+
     0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
     0x20, 0x60, 0x20, 0x20, 0x70, // 1
     0xF0, 0x10, 0xF0, 0x80, 0xF0, // 2
@@ -272,6 +273,54 @@ void chip8_cycle(Chip8 *vm) {
       break;
     }
     break;
+  // FX07, FX15, FX18, FX1E, FX0A, FX29, FX33, FX55, FX65
+  case 0xF000:
+    switch (vm->opcode & 0x00FF) {
+    case 0x0007:
+      vm->V[X] = vm->delay_timer;
+      break;
+    case 0x0015:
+      vm->delay_timer = vm->V[X];
+      break;
+    case 0x0018:
+      vm->sound_timer = vm->V[X];
+      break;
+    case 0x001E:
+      if (vm->I + vm->V[X] > 0xFF) {
+        vm->I += vm->V[X];
+        vm->V[0xF] = 1;
+      } else {
+        vm->I += vm->V[X];
+      }
+      break;
+    case 0x000A:
+      if (process_keypress(vm->keys)) {
+        vm->PC += 2;
+      } else {
+        vm->PC -= 2;
+      }
+      break;
+    case 0x0029:
+      vm->I = vm->V[X] * sizeof(FONT[0]);
+      break;
+    case 0x0033:
+      vm->memory[vm->I] = vm->V[X] / 100;
+      vm->memory[vm->I + 1] = (vm->V[X] / 10) % 10;
+      vm->memory[vm->I + 2] = vm->V[X] % 10;
+      break;
+
+    case 0x0055:
+      for (uint8_t i = 0; i <= X; i++) {
+        vm->memory[vm->I + i] = vm->V[i];
+      }
+      break;
+    case 0x0065:
+      for (uint8_t i = 0; i <= X; i++) {
+        vm->V[i] = vm->memory[vm->I + i];
+      }
+      break;
+    }
+    break;
   // DXYN
   case 0xD000:
     uint8_t x_cord = vm->V[X] % DISPLAY_W;
@@ -360,9 +409,6 @@ bool process_keypress(uint8_t *keys) {
       }
     } else if (event.type == SDL_EVENT_KEY_UP) {
       switch (event.key.scancode) {
-      case SDL_SCANCODE_ESCAPE:
-        stop = true;
-        break;
       case SDL_SCANCODE_1:
         keys[0] = 0;
         break;
