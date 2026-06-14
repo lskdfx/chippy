@@ -19,6 +19,8 @@ I implemented all the instructions for the emulator based on Tobias V. Langhoff'
 ```bash
 Usage: ./Chippy-x86_64.AppImage <ROM> <Scale> <Delay>
 ```
+## Reviewer Note
+I recorded some time with Lapse before finding out it's for art/hardware, hackatime shows about 1hr 44min / 8hr 42min.
 
 ## AI Usage
 I used AI in this project to help me with fixing some bugs in the project, namely, the keypad not mapping correctly, and small errors in some instructions.
