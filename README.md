@@ -15,9 +15,10 @@ I implemented all the instructions for the emulator based on Tobias V. Langhoff'
 ## How to run
 1. Download the AppImage
 2. Make the file executable (chmod +x)
-3. Run the AppImage (Usage: ```bash
-./Chippy-x86_64.AppImage <ROM> <Scale> <Delay>
-```)
+3. Run the AppImage
+```bash
+Usage: ./Chippy-x86_64.AppImage <ROM> <Scale> <Delay>
+```
 
 ## AI Usage
 I used AI in this project to help me with fixing some bugs in the project, namely, the keypad not mapping correctly, and small errors in some instructions.
